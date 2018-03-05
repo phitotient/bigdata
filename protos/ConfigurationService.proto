@@ -1,0 +1,66 @@
+﻿//..\grpc.tools\protoc -I=.\ --csharp_out ./ --grpc_out ./ .\ConfigurationService.proto --plugin=protoc-gen-grpc=../Grpc.Tools/grpc_csharp_plugin.exe
+
+// The Datanext Integration service definition.
+syntax="proto3";
+
+package acidaes.datanext.configuration;
+
+service DatanextConfigurationService {
+    rpc GetModels (GetModelsRequest) returns (GetModelsReply) {};
+	rpc GetModel (GetModelRequest) returns (GetModelsReply) {};
+	rpc GetEntities (GetEntitiesRequest) returns (GetEntitiesReply) {};
+  }
+
+message GetModelsRequest
+{
+}
+
+message ModelEntry 
+{
+    string ModelId = 1;
+    string ModelName =2;
+}
+
+message GetModelRequest
+{
+	int32 OwnerId = 1;
+   string ModelId = 2;
+}
+
+message GetModelReply
+{
+   int32 OwnerId = 1;
+   string ModelId = 2;
+   string ModelName = 3;
+}
+  
+message GetModelsReply {
+    repeated ModelEntry Models = 1;
+}
+
+message GetEntitiesRequest {
+	int32 OwnerId = 1;
+	string EntityName = 2;
+}
+
+message Field {
+	string Name=1;
+	string Label=2;
+	string DataType=3;
+	int32 Length=4;
+}
+
+message EntityMetadata {
+	int32 OwnerId=1;
+	int32 ItemType=2;
+	repeated string PrimaryKeys=3;
+	repeated Field Fields=4;
+	string EntityName=5;
+	int32 EntityId=6;
+	string Description=7;
+}
+
+message GetEntitiesReply {
+	int32 OwnerId = 1;
+	repeated EntityMetadata Entities = 2;
+}
